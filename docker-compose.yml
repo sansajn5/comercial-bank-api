@@ -1,0 +1,25 @@
+version: '3'
+
+services:
+  api:
+    build: .
+    restart: always
+    volumes:
+      - .:/api # Just in Development, this should not be done in production
+    environment:
+      - NODE_ENV=dev
+    links:
+      - db
+    ports:
+      - "8000:8000"
+  db:
+      image: aashreys/mongo-auth:latest
+      environment:
+        - AUTH=yes
+        - MONGODB_ADMIN_USER=root
+        - MONGODB_ADMIN_PASS=toor
+        - MONGODB_APPLICATION_DATABASE=comercial-bank
+        - MONGODB_APPLICATION_USER=dev
+        - MONGODB_APPLICATION_PASS=dev123
+      ports:
+        - "27017:27017"
