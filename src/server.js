@@ -1,11 +1,17 @@
 const express = require('express')
 const bodyParser = require('body-parser')
 
+require('dotenv').config()
+
 const defaultPort = 8000
 const app = express()
 
-//controlers
+// Database
+const mongoose = require('mongoose')
+mongoose.connect("mongodb://dev:dev123@db:27017/comercial-bank", { useNewUrlParser: true })
 
+// Controlers
+const employeeController = require('./controllers/employeeController')
 
 // Setup body-parser middleware
 app.use(bodyParser.json({type: 'application/json'}))
@@ -18,14 +24,12 @@ app.use((req, res, next) => {
   next()
 })
 
-
-//routes
-
+// Routes
+app.route('/api/employee').post(employeeController.register)
 
 app.listen(process.env.PORT || defaultPort, () => {
+    // console.log(process.env.DB_CONNECTION_STRING + process.env.SALT_LENGTH)
     console.log(`Rest API is up on port ${defaultPort}.`)
 })
-  
-
 
 module.exports = app 

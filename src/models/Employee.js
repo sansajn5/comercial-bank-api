@@ -1,6 +1,6 @@
 const mongoose = require('mongoose')
-const uniqueValidator = require('monoose-unique-validator')
-const schema = mongoose.Schema
+const uniqueValidator = require('mongoose-unique-validator')
+const Schema = mongoose.Schema
 
 const EmployeeSchema = new Schema({
     username: {
@@ -14,11 +14,13 @@ const EmployeeSchema = new Schema({
     },
     firstName: {
         type: String,
-        require: true
+        require: true,
+        default: ''
     },
     lastName: {
         type: String,
-        require: true
+        require: true,
+        default: ''
     },
     bank: {
         type: Schema.Types.ObjectId,
