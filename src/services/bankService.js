@@ -160,11 +160,11 @@ const nalogIsplata = async(bankId, rawTransaction) => {
 }
 
 const nalozi = async(bankId) => {
-    return await BankAccount.find({'Bank': bankId}).populate('states').populate({path: 'states', populate: {path:'transaction'} }).exec()
+    return await BankAccount.find({'Bank': bankId}).populate('owner').populate('states').populate({path: 'states', populate: {path:'transaction'} }).exec()
 }
 
 const stateForInterval = async(accountId, from , to) => {
-    return await AccountState.find({'bankAccount': accountId , 'createdDate': {$gte: new Date(from), $lte: new Date(to)}}).exec()
+    return await AccountState.find({'bankAccount': accountId , 'createdDate': {$gte: new Date(from), $lte: new Date(to)}}).populate('transaction').exec()
 }
 
 module.exports = {
