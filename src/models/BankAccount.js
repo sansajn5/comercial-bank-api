@@ -33,7 +33,11 @@ const BankAccountSchema = new Schema({
     mailReporting: {
         type: Boolean,
         default: false
-    }
+    },
+    states: [{
+        type: Schema.Types.ObjectId,
+        ref: 'AccountState'
+    }]
 })
 
 BankAccountSchema.post('remove',  account => {

@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<analyticsOfStatements>
+	<type>Nalog za isplatu</type>
+	<debtor>NN d.o.o</debtor>
+	<purposeOfPayment>Isplata zarade 03/2018</purposeOfPayment>
+	<creditor>Tanasije Tanasic , blagajnik</creditor>
+	<dateOfReceipt>2018-05-20</dateOfReceipt>
+	<currencyDate>2018-05-20</currencyDate>
+	<sum>35000</sum>
+	<debtorAccountXML>1234567891111</debtorAccountXML>
+	<modelAssigments>97</modelAssigments>
+	<referenceNumberAssigments>BOP</referenceNumberAssigments>
+	<emergency>false</emergency>
+	<typeOfMistake>1</typeOfMistake>
+	<status></status>
+	<paymentTypeXML>1</paymentTypeXML>
+	<paymentCurrencyXML>RSD</paymentCurrencyXML>
+	<cityXML>Novi Sad</cityXML>
+	<code>140</code>
+</analyticsOfStatements>

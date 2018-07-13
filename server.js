@@ -16,6 +16,7 @@ const bankController = require('./src/controllers/bankController')
 const clientController = require('./src/controllers/clientController')
 const currencyController = require('./src/controllers/currencyController')
 const bankAccountController = require('./src/controllers/bankAccountController')
+const inputController = require('./src/controllers/inputController')
 
 // Setup body-parser middleware
 app.use(bodyParser.json({type: 'application/json'}))
@@ -74,6 +75,9 @@ app.route('/api/exchange-lists-rate/:id').delete(bankController.deleteRateFromLi
 app.route('/api/exchange-lists-rate/:id').get(bankController.getRate)
 app.route('/api/exchange-lists-rate/:id').put(bankController.editExchangeRate)
 app.route('/api/exchange-lists/:id').get(bankController.getAllRatesFromList)
+
+// Input & Output
+app.route('/api/parse/:mode').post(inputController.readFile)
 
 app.listen(process.env.PORT || defaultPort, () => {
     console.log(`Rest API is up on port ${defaultPort}.`)
