@@ -1222,9 +1222,9 @@ mongodb-core@3.1.0:
   optionalDependencies:
     saslprep "^1.0.0"
 
-mongodb@3.1.0:
-  version "3.1.0"
-  resolved "https://registry.yarnpkg.com/mongodb/-/mongodb-3.1.0.tgz#20cd836381a4d8a6b1c5a194bb9c8dde852163bb"
+mongodb@3.1.1:
+  version "3.1.1"
+  resolved "https://registry.yarnpkg.com/mongodb/-/mongodb-3.1.1.tgz#c018c4b277614e8b1e08426d5bcbe1a7e5cdbd74"
   dependencies:
     mongodb-core "3.1.0"
 
@@ -1255,15 +1255,15 @@ mongoose-validator@^2.0.2:
     is "^3.2.1"
     validator "^9.4.1"
 
-mongoose@^5.2.1:
-  version "5.2.1"
-  resolved "https://registry.yarnpkg.com/mongoose/-/mongoose-5.2.1.tgz#f49d730d2ccf23a07ffcf05ccc44e0dfc19d6e6a"
+mongoose@^5.0.4:
+  version "5.2.3"
+  resolved "https://registry.yarnpkg.com/mongoose/-/mongoose-5.2.3.tgz#667b92c394a6aa81c3c9f2f45f3a8f28cea28e9c"
   dependencies:
     async "2.6.1"
     bson "~1.0.5"
     kareem "2.2.1"
     lodash.get "4.4.2"
-    mongodb "3.1.0"
+    mongodb "3.1.1"
     mongodb-core "3.1.0"
     mongoose-legacy-pluralize "1.0.2"
     mpath "0.4.1"
@@ -1339,6 +1339,10 @@ node-pre-gyp@^0.10.0:
     rimraf "^2.6.1"
     semver "^5.3.0"
     tar "^4"
+
+node-uuid-generator@^1.0.0:
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/node-uuid-generator/-/node-uuid-generator-1.0.0.tgz#d73ae5b472bfcfac4df373611ea1ea9d52cffbb6"
 
 nodemon@^1.17.5:
   version "1.17.5"

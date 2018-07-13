@@ -17,6 +17,11 @@ const EmployeeSchema = new Schema({
         require: true,
         default: ''
     },
+    email: {
+        type: String,
+        unique: true,
+        required: true
+    },
     lastName: {
         type: String,
         require: true,

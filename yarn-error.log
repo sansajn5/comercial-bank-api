@@ -1,5 +1,5 @@
 Arguments: 
-  /home/sansajn/.nvm/versions/node/v9.8.0/bin/node /usr/bin/yarn install
+  /home/sansajn/.nvm/versions/node/v9.8.0/bin/node /usr/bin/yarn add node-uuid-generator --save
 
 PATH: 
   /home/sansajn/.nvm/versions/node/v9.8.0/bin:/home/sansajn/bin:/home/sansajn/.local/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin:/usr/lib/jvm/java-9-oracle/bin:/usr/lib/jvm/java-9-oracle/db/bin
@@ -21,7 +21,7 @@ npm manifest:
     "main": "server.js",
     "scripts": {
       "test": "echo \"Error: no test specified\" && exit 1",
-      "start": "nodemon src/server.js"
+      "start": "nodemon server.js"
     },
     "author": "Nemanja Mudrinic",
     "license": "ISC",
@@ -32,7 +32,7 @@ npm manifest:
       "express": "^4.16.3",
       "express-jwt": "^5.3.1",
       "jsonwebtoken": "^8.3.0",
-      "mongoose": "^5.2.1",
+      "mongoose": "^5.0.4",
       "mongoose-unique-validator": "^2.0.1",
       "mongoose-validator": "^2.0.2"
     },
@@ -488,9 +488,9 @@ Lockfile:
     dependencies:
       is-obj "^1.0.0"
   
-  dotenv@^6.0.0:
-    version "6.0.0"
-    resolved "https://registry.yarnpkg.com/dotenv/-/dotenv-6.0.0.tgz#24e37c041741c5f4b25324958ebbc34bca965935"
+  dotenv@^5.0.0:
+    version "5.0.1"
+    resolved "https://registry.yarnpkg.com/dotenv/-/dotenv-5.0.1.tgz#a5317459bd3d79ab88cff6e44057a6a3fbb1fcef"
   
   duplexer3@^0.1.4:
     version "0.1.4"
