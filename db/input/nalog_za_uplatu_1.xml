@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <analyticsOfStatements>
-	<type>Nalog za isplatu</type>
-	<debtor>NN d.o.o</debtor>
-	<purposeOfPayment>Isplata zarade 03/2018</purposeOfPayment>
-	<creditor>Tanasije Tanasic , blagajnik</creditor>
-	<dateOfReceipt>2018-05-19</dateOfReceipt>
-	<currencyDate>2018-05-19</currencyDate>
-	<sum>5000</sum>
-	<debtorAccountXML>ce6cc52e-902a-4dc4-9afa-b0ee2266c7b7</debtorAccountXML>
+	<type>Nalog za uplatu</type>
+	<debtor>Dejan Mijic</debtor>
+	<purposeOfPayment>Racun za jul</purposeOfPayment>
+	<creditor>NN d.o.ok</creditor>
+	<dateOfReceipt>2018-07-10</dateOfReceipt>
+	<currencyDate>2018-07-10</currencyDate>
+	<sum>3000</sum>
+	<accountCreditorXML>1234567891111</accountCreditorXML>
 	<modelAssigments>97</modelAssigments>
 	<referenceNumberAssigments>BOP</referenceNumberAssigments>
 	<emergency>false</emergency>

@@ -3,10 +3,6 @@ const uniqueValidator = require('mongoose-unique-validator')
 const Schema = mongoose.Schema
 
 const AccountStateSchema = new Schema({
-    value: {
-        type: Number,
-        required: true
-    },
     transaction: {
         type: Schema.Types.ObjectId,
         ref: 'Transaction'
@@ -14,6 +10,13 @@ const AccountStateSchema = new Schema({
     createdDate: {
         type: Date,
         default: Date.now()
+    },
+    value: {
+        type: Number
+    },
+    bankAccount: {
+        type: Schema.Types.ObjectId,
+        ref: 'BankAccount'
     }
 })
 

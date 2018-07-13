@@ -53,6 +53,12 @@ const TransactionSchema = new Schema({
     },
     code: {
         type: String
+    },
+    purposeOfPayment: {
+        type: String
+    },
+    accountCreditorXML: {
+        type: String
     }
 })
 

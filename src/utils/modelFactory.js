@@ -6,6 +6,7 @@ const BankAccount = require('../models/BankAccount')
 const generator = require('node-uuid-generator');
 const ExchangeList = require('../models/ExchangeList')
 const ExchangeRate = require('../models/ExchangeRate')
+const Transaction = require('../models/Transaction')
 
 const createRawEmployee = (rawEmployee) => {
     return employee = new Employee({
@@ -79,6 +80,30 @@ const createRawExchangeRate = (rawExchangeRate) => {
     })
 }
 
+const createRawTransaction = (rawTransaction) => {
+    const temp =  new Transaction({
+        type: rawTransaction.type[0],
+        debtor: rawTransaction.debtor[0] || '',
+        debtorAccountXML: rawTransaction.debtorAccountXML[0],
+        purposeOfPayment: rawTransaction.purposeOfPayment[0] || '',
+        creditor: rawTransaction.creditor[0] || '',
+        dateOfReceipt: rawTransaction.dateOfReceipt[0],
+        currencyDate: rawTransaction.currencyDate[0],
+        sum: parseInt(rawTransaction.sum[0]),
+        accountCreditorXML: rawTransaction.accountCreditorXML ? rawTransaction.accountCreditorXML[0] : '',
+        modelAssigments: rawTransaction.modelAssigments[0],
+        referenceNumberAssigments: rawTransaction.referenceNumberAssigments[0],
+        emergency: (rawTransaction.emergency[0] == 'false') ? false : true,
+        typeOfMistake: rawTransaction.typeOfMistake[0],
+        status: rawTransaction.status[0],
+        paymentTypeXML: rawTransaction.paymentTypeXML[0],
+        paymentCurrencyXML: rawTransaction.paymentCurrencyXML[0],
+        cityXML: rawTransaction.cityXML[0],
+        code: rawTransaction.code[0]
+    })
+    return temp
+}
+
 module.exports = {
     createRawEmployee,
     createRawBank,
@@ -86,6 +111,7 @@ module.exports = {
     createRawCurrency,
     createRawBankAccount,
     createRawExchangeList,
-    createRawExchangeRate
+    createRawExchangeRate,
+    createRawTransaction
 }
 

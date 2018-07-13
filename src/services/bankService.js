@@ -2,6 +2,9 @@ const Bank = require('../models/Bank')
 const Employee = require('../models/Employee')
 const ExchangeList = require('../models/ExchangeList')
 const ExchangeRate = require('../models/ExchangeRate')
+const BankAccount = require('../models/BankAccount')
+const AccountState = require('../models/AccountState')
+const Transaction = require('../models/Transaction')
 
 const findBankById = async (id) => {
     try {
@@ -106,6 +109,64 @@ const editRate = async(id, rawRate) => {
     }
 }
 
+const nalogUplata = async(bankId, rawTransaction) => {
+    let bankAccount = await BankAccount.findOne({'number': rawTransaction.accountCreditorXML})
+    if(bankId == bankAccount.Bank) {
+        rawTransaction.save()
+        const accountState = new AccountState({
+            transaction: rawTransaction,
+            createdDate: new Date('2018-07-01'),
+            bankAccount: bankAccount
+        })
+        if(bankAccount.states.length == 0) {
+            accountState.value = rawTransaction.sum
+        } else {
+            let latestState = await AccountState.find({'bankAccount': bankAccount._id}).sort({"createdDate": -1}).limit(1)
+            accountState.value = latestState.value + rawTransaction.sum
+        }
+        accountState.save()
+        bankAccount.states.push(accountState)
+        Promise.resolve(bankAccount.save())
+    } else {
+        return Promise.reject(
+            new Error('Not your bank')
+        )
+    }
+}
+
+const nalogIsplata = async(bankId, rawTransaction) => {
+    let bankAccount = await BankAccount.findOne({'number': rawTransaction.debtorAccountXML})
+    if(bankId == bankAccount.Bank) {
+        rawTransaction.save()
+        const accountState = new AccountState({
+            transaction: rawTransaction,
+            createdDate: new Date('2018-07-01'),
+            bankAccount: bankAccount
+        })
+        if(bankAccount.states.length == 0) {
+            accountState.value = 0 - rawTransaction.sum
+        } else {
+            let latestState = await AccountState.findOne({'bankAccount': bankAccount._id}).sort({"createdDate": -1}).limit(1)
+            accountState.value = latestState.value - rawTransaction.sum
+        }
+        accountState.save()
+        bankAccount.states.push(accountState)
+        Promise.resolve(bankAccount.save())
+    } else {
+        return Promise.reject(
+            new Error('Not your bank')
+        )
+    }
+}
+
+const nalozi = async(bankId) => {
+    return await BankAccount.find({'Bank': bankId}).populate('states').populate({path: 'states', populate: {path:'transaction'} }).exec()
+}
+
+const stateForInterval = async(accountId, from , to) => {
+    return await AccountState.find({'bankAccount': accountId , 'createdDate': {$gte: new Date(from), $lte: new Date(to)}}).exec()
+}
+
 module.exports = {
     createBank,
     findBankById,
@@ -120,5 +181,9 @@ module.exports = {
     addRateToList,
     deleteRateFromList,
     findRate,
-    editRate
+    editRate,
+    nalogUplata,
+    nalogIsplata,
+    stateForInterval,
+    nalozi
 }

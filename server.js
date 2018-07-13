@@ -77,7 +77,10 @@ app.route('/api/exchange-lists-rate/:id').put(bankController.editExchangeRate)
 app.route('/api/exchange-lists/:id').get(bankController.getAllRatesFromList)
 
 // Input & Output
-app.route('/api/parse/:mode').post(inputController.readFile)
+app.route('/api/parse').post(inputController.readFile)
+app.route('/api/transactions/:id').post(inputController.createTransaction)
+app.route('/api/transactions-find/:id').post(inputController.findBetween)
+app.route('/api/transactions-find/:id').get(inputController.findAll)
 
 app.listen(process.env.PORT || defaultPort, () => {
     console.log(`Rest API is up on port ${defaultPort}.`)
