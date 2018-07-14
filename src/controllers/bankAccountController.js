@@ -1,5 +1,6 @@
 const modelFactory = require('../utils/modelFactory')
 const bankAccountService = require('../services/bankAccountService')
+const bankService = require('../services/bankService')
 
 const openAccount = (req, res, next) => {
     const bankId = req.params.id
@@ -44,11 +45,19 @@ const editBankAccount = (req, res, next) => {
     .catch(err => res.status(500).json({error: err.message}))
 }
 
+const closeAccount = (req, res, next) => {
+    const id = req.params.id
+    bankService.closeAccount(id)
+    .then(data => res.status(200).json({data: data}))
+    .catch(err => res.status(500).json({error: err.message}))
+}
+
 module.exports = {
     openAccount,
     bankAccountsForBank,
     bankAccountsForClient,
     bank,
     deleteBank,
-    editBankAccount
+    editBankAccount,
+    closeAccount
 }

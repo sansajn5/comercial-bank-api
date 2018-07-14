@@ -2,6 +2,7 @@ const parser = require('../utils/parser')
 const responseHelper = require('../utils/responseHelper')
 const bankService = require('../services/bankService')
 const modelFactory = require('../utils/modelFactory')
+const fs = require('fs')
 
 const readFile = (req, res, next) => {
     const name = req.body.name
@@ -47,9 +48,26 @@ const findAll = (req, res, next) => {
     .catch(err => res.status(500).json({error: err.message}))
 }
 
+const xml = (req, res, next) => {
+    const from = req.body.from
+    const to = req.body.to
+    const accountId = req.params.id
+    bankService.makeXML(accountId, from, to)
+    .then(data => {
+        const filepath =`./db/output/listing${from}-${to}-${accountId}.xml`
+        fs.writeFile(filepath, data, (err) => {
+            if (err) throw err;
+            console.log("The file was succesfully saved!");
+        }); 
+        res.status(200).json({data: 'ok'})
+    })
+    .catch(err => res.status(500).json({error: err.message}))
+}
+
 module.exports = {
     readFile,
     createTransaction,
     findBetween,
-    findAll
+    findAll,
+    xml
 }

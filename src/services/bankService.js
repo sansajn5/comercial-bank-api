@@ -5,6 +5,8 @@ const ExchangeRate = require('../models/ExchangeRate')
 const BankAccount = require('../models/BankAccount')
 const AccountState = require('../models/AccountState')
 const Transaction = require('../models/Transaction')
+const fs = require('fs')
+const xml2js = require('xml2js');
 
 const findBankById = async (id) => {
     try {
@@ -111,7 +113,7 @@ const editRate = async(id, rawRate) => {
 
 const nalogUplata = async(bankId, rawTransaction) => {
     let bankAccount = await BankAccount.findOne({'number': rawTransaction.accountCreditorXML})
-    if(bankId == bankAccount.Bank) {
+    if(bankId == bankAccount.Bank && bankAccount.valid) {
         rawTransaction.save()
         const accountState = new AccountState({
             transaction: rawTransaction,
@@ -129,14 +131,14 @@ const nalogUplata = async(bankId, rawTransaction) => {
         Promise.resolve(bankAccount.save())
     } else {
         return Promise.reject(
-            new Error('Not your bank')
+            new Error('Not your bank or closed account')
         )
     }
 }
 
 const nalogIsplata = async(bankId, rawTransaction) => {
     let bankAccount = await BankAccount.findOne({'number': rawTransaction.debtorAccountXML})
-    if(bankId == bankAccount.Bank) {
+    if(bankId == bankAccount.Bank && bankAccount.valid) {
         rawTransaction.save()
         const accountState = new AccountState({
             transaction: rawTransaction,
@@ -154,8 +156,37 @@ const nalogIsplata = async(bankId, rawTransaction) => {
         Promise.resolve(bankAccount.save())
     } else {
         return Promise.reject(
-            new Error('Not your bank')
+            new Error('Not your bank or closed account')
         )
+    }
+}
+
+const nalogPrenos = async() => {
+    // let bankAccount = await BankAccount.findOne({'number': rawTransaction.debtorAccountXML})
+    // if(bankId == bankAccount.Bank) {
+    //     rawTransaction.save()
+    //     if(rawTransaction.emergency)
+    //     accountState.save()
+    //     bankAccount.states.push(accountState)
+    //     Promise.resolve(bankAccount.save())
+    // } else {
+    //     return Promise.reject(
+    //         new Error('Not your bank')
+    //     )
+    // }
+}
+
+const closeAccount = async(id) => {
+    try {
+        let bankAccount = await BankAccount.findOneAndUpdate({'_id': id}, {'valid': false}).exec()
+        if(!bankAccount) {
+            return Promise.reject(
+                new Error('Bank Account with that properties does not exist')
+            );
+        }
+        return BankAccount.findOne({'_id': bankAccount._id}).exec()
+    } catch (err) {
+        Promise.reject(err)
     }
 }
 
@@ -165,6 +196,30 @@ const nalozi = async(bankId) => {
 
 const stateForInterval = async(accountId, from , to) => {
     return await AccountState.find({'bankAccount': accountId , 'createdDate': {$gte: new Date(from), $lte: new Date(to)}}).populate('transaction').exec()
+}
+
+const makeXML = async(accountId, from , to) => {
+    const data = await AccountState.find({'bankAccount': accountId , 'createdDate': {$gte: new Date(from), $lte: new Date(to)}}).populate('transaction').exec()
+    const len = data.length
+    let array = [];
+    data.forEach(element => {
+        const object = {
+            type: element.transaction.type,
+            sum: element.transaction.sum,
+            code: element.transaction.code,
+            emergency: element.transaction.emergency,
+            purposeOfPayment: element.transaction.purposeOfPayment,
+            accountCreditorXML: element.transaction.accountCreditorXML,
+            debtorAccountXML: element.transaction.debtorAccountXML,
+            paymentCurrencyXML: element.transaction.paymentCurrencyXML,
+            createdDate: element.createdDate
+        }
+        array.push(object)
+    })
+ 
+    let builder = new xml2js.Builder();
+    let xml = builder.buildObject({states: array, currenctState:data[len-1].value})
+    return xml;
 }
 
 module.exports = {
@@ -185,5 +240,7 @@ module.exports = {
     nalogUplata,
     nalogIsplata,
     stateForInterval,
-    nalozi
+    nalozi,
+    closeAccount,
+    makeXML
 }

@@ -67,6 +67,7 @@ app.route('/api/currencys/:id').get(currencyController.currency)
 app.route('/api/bank-accounts/:id').get(bankAccountController.bank)
 app.route('/api/bank-accounts/:id').delete(bankAccountController.deleteBank)
 app.route('/api/bank-accounts/:id').put(bankAccountController.editBankAccount)
+app.route('/api/bank-accounts-close/:id').get(bankAccountController.closeAccount)
 
 // Exchange
 app.route('/api/exchange-lists/:id').delete(bankController.deleteExchnageList)
@@ -81,6 +82,7 @@ app.route('/api/parse').post(inputController.readFile)
 app.route('/api/transactions/:id').post(inputController.createTransaction)
 app.route('/api/transactions-find/:id').post(inputController.findBetween)
 app.route('/api/transactions-find/:id').get(inputController.findAll)
+app.route('/api/transactions-find-xml/:id').post(inputController.xml)
 
 app.listen(process.env.PORT || defaultPort, () => {
     console.log(`Rest API is up on port ${defaultPort}.`)
