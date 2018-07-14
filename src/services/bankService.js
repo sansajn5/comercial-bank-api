@@ -7,6 +7,7 @@ const AccountState = require('../models/AccountState')
 const Transaction = require('../models/Transaction')
 const fs = require('fs')
 const xml2js = require('xml2js');
+const ClearingList = require('../models/ClearingList')
 
 const findBankById = async (id) => {
     try {
@@ -161,19 +162,37 @@ const nalogIsplata = async(bankId, rawTransaction) => {
     }
 }
 
-const nalogPrenos = async() => {
-    // let bankAccount = await BankAccount.findOne({'number': rawTransaction.debtorAccountXML})
-    // if(bankId == bankAccount.Bank) {
-    //     rawTransaction.save()
-    //     if(rawTransaction.emergency)
-    //     accountState.save()
-    //     bankAccount.states.push(accountState)
-    //     Promise.resolve(bankAccount.save())
-    // } else {
-    //     return Promise.reject(
-    //         new Error('Not your bank')
-    //     )
-    // }
+const nalogPrenos = async(bankId, rawTransaction) => {
+    let bankAccount = await BankAccount.findOne({'number': rawTransaction.debtorAccountXML})
+    if(bankId == bankAccount.Bank && bankAccount.valid) {
+        if(rawTransaction.emergency) {
+            const object = {
+                type: rawTransaction.type,
+                sum: rawTransaction.sum,
+                code: rawTransaction.code,
+                emergency: rawTransaction.emergency,
+                purposeOfPayment: rawTransaction.purposeOfPayment,
+                accountCreditorXML: rawTransaction.accountCreditorXML,
+                debtorAccountXML: rawTransaction.debtorAccountXML,
+                paymentCurrencyXML: rawTransaction.paymentCurrencyXML,
+                modelApproval: rawTransaction.modelApproval,
+                modelAssigments: rawTransaction.modelAssigments,
+                referenceNumberAssigments: rawTransaction.referenceNumberAssigments,
+                creditor: rawTransaction.creditor
+            }
+            let builder = new xml2js.Builder();
+            let xml = builder.buildObject({mt103: object})
+            return xml;
+        } else {
+
+        }
+    
+        Promise.resolve(rawTransaction.save())
+    } else {
+        return Promise.reject(
+            new Error('Not your bank')
+        )
+    }
 }
 
 const closeAccount = async(id) => {
@@ -242,5 +261,6 @@ module.exports = {
     stateForInterval,
     nalozi,
     closeAccount,
-    makeXML
+    makeXML,
+    nalogPrenos
 }

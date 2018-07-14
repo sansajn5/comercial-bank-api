@@ -8,7 +8,7 @@
 	<dateOfReceipt>2018-05-19</dateOfReceipt>
 	<currencyDate>2018-05-19</currencyDate>
 	<sum>5000</sum>
-	<debtorAccountXML>1234567891111</debtorAccountXML>
+	<debtorAccountXML>ce6cc52e-902a-4dc4-9afa-b0ee2266c7b7</debtorAccountXML>
 	<modelAssigments>97</modelAssigments>
 	<referenceNumberAssigments>BOP</referenceNumberAssigments>
 	<accountCreditorXML>1234567892222</accountCreditorXML>
@@ -19,6 +19,6 @@
 	<typeOfMistake>1</typeOfMistake>
 	<status></status>
 	<code>248</code>
-	<emergency>false</emergency>
+	<emergency>true</emergency>
 
 </analyticsOfStatements>

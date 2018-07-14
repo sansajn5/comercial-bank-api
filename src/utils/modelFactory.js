@@ -98,7 +98,7 @@ const createRawTransaction = (rawTransaction) => {
         status: rawTransaction.status[0],
         paymentTypeXML: rawTransaction.paymentTypeXML[0],
         paymentCurrencyXML: rawTransaction.paymentCurrencyXML[0],
-        cityXML: rawTransaction.cityXML[0],
+        cityXML: rawTransaction.cityXML ? rawTransaction.cityXML[0] : '',
         code: rawTransaction.code[0]
     })
     return temp

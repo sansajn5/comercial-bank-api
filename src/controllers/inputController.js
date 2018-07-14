@@ -26,7 +26,16 @@ const createTransaction = (req, res, next) => {
     } else if(req.body.type == 'Nalog za naplatu') {
 
     } else if(req.body.type == 'Nalog za prenos') {
-
+        bankService.nalogPrenos(currentBankId, rawTransaction)
+        .then(data =>{
+            const filepath =`./db/output/rtgs${rawTransaction._id}.xml`
+        fs.writeFile(filepath, data, (err) => {
+            if (err) throw err;
+            console.log("The file was succesfully saved!");
+            }); 
+            res.status(200).json({data: 'ok'})
+        })
+        .catch(err => res.status(500).json({error: err.message}))
     } else {
         responseHelper.malformedRequest('type',req, res, next)
     }
